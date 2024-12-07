@@ -1,0 +1,130 @@
+2024-12-05 00:04:10,936 - [LISTENING] Server is listening on 127.0.0.1:12345
+2024-12-05 00:04:38,867 - [NEW CONNECTION] ('127.0.0.1', 52088) connected.
+2024-12-05 00:04:38,878 - [DOWNLOAD] example.pdf sent to ('127.0.0.1', 52088).
+2024-12-05 00:04:49,242 - [DISCONNECTED] ('127.0.0.1', 52088) disconnected.
+2024-12-05 00:04:56,866 - [NEW CONNECTION] ('127.0.0.1', 52094) connected.
+2024-12-05 00:04:56,884 - [UPLOAD] example_1733331896.pdf uploaded successfully.
+2024-12-05 00:04:57,974 - [DISCONNECTED] ('127.0.0.1', 52094) disconnected.
+2024-12-05 00:11:27,869 - [LISTENING] Server is listening on 127.0.0.1:12345
+2024-12-05 00:11:45,525 - [NEW CONNECTION] ('127.0.0.1', 52241) connected.
+2024-12-05 00:11:45,525 - [ERROR] 'utf-8' codec can't decode byte 0xd3 in position 34: invalid continuation byte
+2024-12-05 00:11:45,537 - [DISCONNECTED] ('127.0.0.1', 52241) disconnected.
+2024-12-05 00:12:00,600 - [NEW CONNECTION] ('127.0.0.1', 52246) connected.
+2024-12-05 00:12:00,600 - [ERROR] 'utf-8' codec can't decode byte 0xd3 in position 34: invalid continuation byte
+2024-12-05 00:12:00,600 - [DISCONNECTED] ('127.0.0.1', 52246) disconnected.
+2024-12-05 00:12:28,835 - [NEW CONNECTION] ('127.0.0.1', 52254) connected.
+2024-12-05 00:12:28,860 - [UPLOAD] example_1.pdf uploaded successfully.
+2024-12-05 00:12:29,888 - [DISCONNECTED] ('127.0.0.1', 52254) disconnected.
+2024-12-05 00:13:04,553 - [NEW CONNECTION] ('127.0.0.1', 52266) connected.
+2024-12-05 00:13:04,554 - [ERROR] invalid literal for int() with base 10: 'ch\u1ee5p'
+2024-12-05 00:13:04,554 - [DISCONNECTED] ('127.0.0.1', 52266) disconnected.
+2024-12-05 00:13:07,291 - [NEW CONNECTION] ('127.0.0.1', 52270) connected.
+2024-12-05 00:13:07,291 - [ERROR] invalid literal for int() with base 10: 'ch\u1ee5p'
+2024-12-05 00:13:07,291 - [DISCONNECTED] ('127.0.0.1', 52270) disconnected.
+2024-12-05 00:13:07,457 - [NEW CONNECTION] ('127.0.0.1', 52271) connected.
+2024-12-05 00:13:07,457 - [ERROR] invalid literal for int() with base 10: 'ch\u1ee5p'
+2024-12-05 00:13:07,457 - [DISCONNECTED] ('127.0.0.1', 52271) disconnected.
+2024-12-05 00:13:08,842 - [NEW CONNECTION] ('127.0.0.1', 52272) connected.
+2024-12-05 00:13:08,843 - [ERROR] invalid literal for int() with base 10: 'ch\u1ee5p'
+2024-12-05 00:13:08,843 - [DISCONNECTED] ('127.0.0.1', 52272) disconnected.
+2024-12-05 00:13:09,960 - [NEW CONNECTION] ('127.0.0.1', 52273) connected.
+2024-12-05 00:13:09,961 - [ERROR] invalid literal for int() with base 10: 'ch\u1ee5p'
+2024-12-05 00:13:09,973 - [DISCONNECTED] ('127.0.0.1', 52273) disconnected.
+2024-12-05 00:13:11,375 - [NEW CONNECTION] ('127.0.0.1', 52274) connected.
+2024-12-05 00:13:11,376 - [ERROR] invalid literal for int() with base 10: 'ch\u1ee5p'
+2024-12-05 00:13:11,376 - [DISCONNECTED] ('127.0.0.1', 52274) disconnected.
+2024-12-05 00:13:12,091 - [NEW CONNECTION] ('127.0.0.1', 52275) connected.
+2024-12-05 00:13:12,091 - [ERROR] invalid literal for int() with base 10: 'ch\u1ee5p'
+2024-12-05 00:13:12,092 - [DISCONNECTED] ('127.0.0.1', 52275) disconnected.
+2024-12-05 00:13:12,993 - [NEW CONNECTION] ('127.0.0.1', 52276) connected.
+2024-12-05 00:13:12,994 - [ERROR] invalid literal for int() with base 10: 'ch\u1ee5p'
+2024-12-05 00:13:12,994 - [DISCONNECTED] ('127.0.0.1', 52276) disconnected.
+2024-12-05 00:16:59,015 - [LISTENING] Server is listening on 127.0.0.1:12345
+2024-12-05 00:17:27,601 - [NEW CONNECTION] ('127.0.0.1', 52438) connected.
+2024-12-05 00:17:27,601 - [ERROR] invalid literal for int() with base 10: 't\u1eadp'
+2024-12-05 00:17:27,601 - [DISCONNECTED] ('127.0.0.1', 52438) disconnected.
+2024-12-05 00:17:30,997 - [NEW CONNECTION] ('127.0.0.1', 52441) connected.
+2024-12-05 00:17:31,026 - [UPLOAD] Homework-test1-XSTK-hk2-2023-2024-solutions.pdf uploaded successfully.
+2024-12-05 00:17:32,042 - [DISCONNECTED] ('127.0.0.1', 52441) disconnected.
+2024-12-05 00:17:32,042 - [NEW CONNECTION] ('127.0.0.1', 52442) connected.
+2024-12-05 00:17:32,042 - [ERROR] 'utf-8' codec can't decode byte 0xdd in position 53: invalid continuation byte
+2024-12-05 00:17:32,043 - [DISCONNECTED] ('127.0.0.1', 52442) disconnected.
+2024-12-05 00:19:11,528 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-05 00:19:29,539 - [NEW CONNECTION] ('127.0.0.1', 52493) connected.
+2024-12-05 00:19:29,539 - [ERROR] 'utf-8' codec can't decode byte 0xa1 in position 52: invalid start byte
+2024-12-05 00:19:29,539 - [DISCONNECTED] ('127.0.0.1', 52493) disconnected.
+2024-12-05 00:19:40,489 - [NEW CONNECTION] ('127.0.0.1', 52497) connected.
+2024-12-05 00:19:40,489 - [ERROR] 'utf-8' codec can't decode byte 0xd0 in position 71: invalid continuation byte
+2024-12-05 00:19:40,489 - [DISCONNECTED] ('127.0.0.1', 52497) disconnected.
+2024-12-05 00:19:41,305 - [NEW CONNECTION] ('127.0.0.1', 52498) connected.
+2024-12-05 00:19:41,305 - [ERROR] 'utf-8' codec can't decode byte 0xdd in position 53: invalid continuation byte
+2024-12-05 00:19:41,306 - [DISCONNECTED] ('127.0.0.1', 52498) disconnected.
+2024-12-05 00:30:32,966 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-05 00:30:52,320 - [NEW CONNECTION] ('127.0.0.1', 52717) connected.
+2024-12-05 00:30:52,320 - [ERROR] 'utf-8' codec can't decode byte 0xa1 in position 52: invalid start byte
+2024-12-05 00:30:52,320 - [DISCONNECTED] ('127.0.0.1', 52717) disconnected.
+2024-12-05 00:30:55,268 - [NEW CONNECTION] ('127.0.0.1', 52718) connected.
+2024-12-05 00:30:55,268 - [ERROR] 'utf-8' codec can't decode byte 0xd0 in position 71: invalid continuation byte
+2024-12-05 00:30:55,268 - [DISCONNECTED] ('127.0.0.1', 52718) disconnected.
+2024-12-05 00:30:56,099 - [NEW CONNECTION] ('127.0.0.1', 52719) connected.
+2024-12-05 00:30:56,099 - [ERROR] 'utf-8' codec can't decode byte 0xdd in position 53: invalid continuation byte
+2024-12-05 00:30:56,099 - [DISCONNECTED] ('127.0.0.1', 52719) disconnected.
+2024-12-05 00:54:21,924 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-05 00:54:40,053 - [NEW CONNECTION] ('127.0.0.1', 53170) connected.
+2024-12-05 00:54:40,054 - [NEW CONNECTION] ('127.0.0.1', 53171) connected.
+2024-12-05 00:54:40,054 - [ERROR] 'utf-8' codec can't decode byte 0xa1 in position 52: invalid start byte
+2024-12-05 00:54:40,055 - [DISCONNECTED] ('127.0.0.1', 53171) disconnected.
+2024-12-05 00:54:51,891 - [NEW CONNECTION] ('127.0.0.1', 53174) connected.
+2024-12-05 00:54:51,892 - [ERROR] 'utf-8' codec can't decode byte 0xd0 in position 71: invalid continuation byte
+2024-12-05 00:54:51,892 - [DISCONNECTED] ('127.0.0.1', 53174) disconnected.
+2024-12-05 00:54:52,821 - [NEW CONNECTION] ('127.0.0.1', 53175) connected.
+2024-12-05 00:54:52,821 - [ERROR] 'utf-8' codec can't decode byte 0xdd in position 53: invalid continuation byte
+2024-12-05 00:54:52,821 - [DISCONNECTED] ('127.0.0.1', 53175) disconnected.
+2024-12-05 00:54:53,325 - [UPLOAD_FOLDER] temp uploaded successfully.
+2024-12-05 00:54:53,325 - [ERROR] [WinError 10053] An established connection was aborted by the software in your host machine
+2024-12-05 00:54:53,325 - [DISCONNECTED] ('127.0.0.1', 53170) disconnected.
+2024-12-05 01:05:21,662 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-05 01:05:51,382 - [NEW CONNECTION] ('127.0.0.1', 53388) connected.
+2024-12-05 01:05:51,391 - [DOWNLOAD] Homework-test1-XSTK-hk2-2023-2024-solutions.pdf sent to ('127.0.0.1', 53388).
+2024-12-05 01:05:58,872 - [DISCONNECTED] ('127.0.0.1', 53388) disconnected.
+2024-12-05 01:06:03,866 - [NEW CONNECTION] ('127.0.0.1', 53391) connected.
+2024-12-05 01:06:03,891 - [UPLOAD] Homework-test1-XSTK-hk2-2023-2024-solutions_1.pdf uploaded successfully.
+2024-12-05 01:06:04,845 - [DISCONNECTED] ('127.0.0.1', 53391) disconnected.
+2024-12-05 01:06:21,460 - [NEW CONNECTION] ('127.0.0.1', 53398) connected.
+2024-12-05 01:06:21,460 - [NEW CONNECTION] ('127.0.0.1', 53399) connected.
+2024-12-05 01:06:21,460 - [ERROR] 'utf-8' codec can't decode byte 0xa1 in position 52: invalid start byte
+2024-12-05 01:06:21,460 - [DISCONNECTED] ('127.0.0.1', 53399) disconnected.
+2024-12-05 01:06:24,109 - [NEW CONNECTION] ('127.0.0.1', 53400) connected.
+2024-12-05 01:06:24,109 - [ERROR] 'utf-8' codec can't decode byte 0xd0 in position 71: invalid continuation byte
+2024-12-05 01:06:24,109 - [DISCONNECTED] ('127.0.0.1', 53400) disconnected.
+2024-12-05 01:06:24,980 - [NEW CONNECTION] ('127.0.0.1', 53402) connected.
+2024-12-05 01:06:24,980 - [ERROR] 'utf-8' codec can't decode byte 0xdd in position 53: invalid continuation byte
+2024-12-05 01:06:24,981 - [DISCONNECTED] ('127.0.0.1', 53402) disconnected.
+2024-12-05 01:06:25,426 - [ERROR] [WinError 10053] An established connection was aborted by the software in your host machine
+2024-12-05 01:06:25,426 - [DISCONNECTED] ('127.0.0.1', 53398) disconnected.
+2024-12-05 01:13:30,323 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-05 01:13:47,461 - [NEW CONNECTION] ('127.0.0.1', 53540) connected.
+2024-12-05 01:13:47,461 - [NEW CONNECTION] ('127.0.0.1', 53541) connected.
+2024-12-05 01:13:47,471 - [ERROR] invalid literal for int() with base 10: 't\u1eadp'
+2024-12-05 01:13:47,471 - [DISCONNECTED] ('127.0.0.1', 53541) disconnected.
+2024-12-05 01:13:50,681 - [NEW CONNECTION] ('127.0.0.1', 53543) connected.
+2024-12-05 01:13:50,719 - [UPLOAD] Homework-test1-XSTK-hk2-2023-2024-solutions_2.pdf uploaded successfully.
+2024-12-05 01:13:52,047 - [DISCONNECTED] ('127.0.0.1', 53543) disconnected.
+2024-12-05 01:13:52,048 - [NEW CONNECTION] ('127.0.0.1', 53544) connected.
+2024-12-05 01:13:52,065 - [UPLOAD] PROJECT_SOCKET_2021_02.docx uploaded successfully.
+2024-12-05 01:13:52,791 - [DISCONNECTED] ('127.0.0.1', 53544) disconnected.
+2024-12-05 01:13:52,791 - [ERROR] [WinError 10053] An established connection was aborted by the software in your host machine
+2024-12-05 01:13:52,792 - [DISCONNECTED] ('127.0.0.1', 53540) disconnected.
+2024-12-05 13:11:04,586 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-05 13:11:29,398 - [NEW CONNECTION] ('127.0.0.1', 58299) connected.
+2024-12-05 13:11:29,398 - [NEW CONNECTION] ('127.0.0.1', 58300) connected.
+2024-12-05 13:11:29,421 - [ERROR] invalid literal for int() with base 10: 't\u1eadp'
+2024-12-05 13:11:29,421 - [DISCONNECTED] ('127.0.0.1', 58300) disconnected.
+2024-12-05 13:11:30,305 - [NEW CONNECTION] ('127.0.0.1', 58302) connected.
+2024-12-05 13:11:30,344 - [UPLOAD] Homework-test1-XSTK-hk2-2023-2024-solutions_3.pdf uploaded successfully.
+2024-12-05 13:11:31,240 - [DISCONNECTED] ('127.0.0.1', 58302) disconnected.
+2024-12-05 13:11:31,240 - [NEW CONNECTION] ('127.0.0.1', 58303) connected.
+2024-12-05 13:11:31,268 - [UPLOAD] PROJECT_SOCKET_2021_02_1.docx uploaded successfully.
+2024-12-05 13:11:31,841 - [DISCONNECTED] ('127.0.0.1', 58303) disconnected.
+2024-12-05 13:11:31,841 - [ERROR] [WinError 10053] An established connection was aborted by the software in your host machine
+2024-12-05 13:11:31,841 - [DISCONNECTED] ('127.0.0.1', 58299) disconnected.
