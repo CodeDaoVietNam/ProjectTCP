@@ -1,3 +1,4 @@
+
 import socket  # Thư viện để làm việc với giao thức mạng
 import os  # Thư viện để làm việc với hệ thống tệp
 import tkinter as tk  # Thư viện để tạo giao diện người dùng
@@ -13,64 +14,62 @@ SIZE = 4096       # Kích thước buffer (1MB) cho việc truyền tải dữ l
 FORMAT = 'utf-8'         # Định dạng mã hóa cho các chuỗi
 
 # Hàm upload file lên server
-def upload_file(filename):
-    filesize = os.path.getsize(filename)  # Lấy kích thước của file
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Tạo socket client
-    client_socket.settimeout(60)
+def upload_files(client_socket, filenames):
+    client_socket.settimeout(120)
     try:
-        client_socket.connect(ADDR)  # Kết nối đến server
-        client_socket.send(f"UPLOAD {os.path.basename(filename)} {filesize}".encode(FORMAT))  # Gửi lệnh upload và thông tin file
-
-        with open(filename, 'rb') as f:  # Mở file để đọc nhị phân
-            bytes_sent = 0  # Biến để theo dõi số byte đã gửi
-            while bytes_sent < filesize:  # Trong khi chưa gửi hết file
-                data = f.read(4096)  # Đọc 4096 byte từ file
-                client_socket.sendall(data)  # Gửi dữ liệu đến server
-                bytes_sent += len(data)  # Cập nhật số byte đã gửi
-                # Cập nhật tiến độ
-                progress = (bytes_sent / filesize) * 100  # Tính toán phần trăm đã gửi
-                progress_var.set(progress)  # Cập nhật biến tiến độ
-                root.update_idletasks()  # Cập nhật giao diện
-                
-        response = client_socket.recv(1024).decode(FORMAT)  # Nhận phản hồi từ server
-        messagebox.showinfo("Thông báo", "Upload thành công!" if response == "UPLOAD_SUCCESS" else "Upload thất bại!")  # Hiển thị thông báo
+        #print(f"{filesize}")
+        for filename in filenames:
+            filesize = os.path.getsize(filename) # lấy kích thước của từng file 
+            client_socket.send(f"UPLOAD {os.path.basename(filename)} {filesize}".encode(FORMAT))  # Gửi lệnh upload và thông tin file
+            if client_socket.recv(1024).decode(FORMAT) == "Ready to receive":          
+                with open(filename, 'rb') as f:  # Mở file để đọc nhị phân
+                    bytes_sent = 0  # Biến để theo dõi số byte đã gửi
+                    while bytes_sent < filesize:  # Trong khi chưa gửi hết file
+                        #
+                        data = f.read(SIZE)  # Đọc 4096 byte từ file
+                        client_socket.sendall(data)  # Gửi dữ liệu đến server
+                        bytes_sent += len(data)  # Cập nhật số byte đã gửi
+                        # Cập nhật tiến độ
+                        progress = (bytes_sent / filesize) * 100  # Tính toán phần trăm đã gửi
+                        progress_var.set(progress)  # Cập nhật biến tiến độ
+                        root.update_idletasks()  # Cập nhật giao diện           
+            response = client_socket.recv(1024).decode(FORMAT)  # Nhận phản hồi từ server
+            messagebox.showinfo("Thông báo", "Upload thành công!" if response == "UPLOAD_SUCCESS" else "Upload thất bại!")  # Hiển thị thông báo   
     except Exception as e:
         messagebox.showerror("Lỗi", f"Lỗi khi upload file: {e}")  # Hiển thị thông báo lỗi nếu có
-    finally:
-        client_socket.close()  # Đóng socket
-
+    return "Completed"
+    # finally:
+    #      client_socket.close()
+         
 # Hàm tải file từ server
-def download_file(filename):
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Tạo socket client
-    
-    try:
-        client_socket.connect(ADDR)  # Kết nối đến server
-        client_socket.send(f"DOWNLOAD {filename}".encode(FORMAT))  # Gửi lệnh download và tên file
-        response = client_socket.recv(1024).decode(FORMAT)  # Nhận phản hồi từ server
-
-        if response.startswith("FILE_FOUND"):  # Nếu file được tìm thấy
-            filesize = int(response.split()[1])  # Lấy kích thước file từ phản hồi
-            save_path = filedialog.asksaveasfilename(defaultextension=".bin", initialfile=filename)  # Mở hộp thoại để chọn đường dẫn lưu file
-            with open(save_path, 'wb') as f:  # Mở file để ghi nhị phân
-                bytes_received = 0  # Biến để theo dõi số byte đã nhận
-                while bytes_received < filesize:  # Trong khi chưa nhận hết file
-                    data = client_socket.recv(4096)  # Nhận 4096 byte từ server
-                    if not data:  # Nếu không còn dữ liệu
-                        break
-                    f.write(data)  # Ghi dữ liệu vào file
-                    bytes_received += len(data)  # Cập nhật số byte đã nhận
-                    # Cập nhật tiến độ
-                    progress = (bytes_received / filesize) * 100  # Tính toán phần trăm đã nhận
-                    progress_var.set(progress)  # Cập nhật biến tiến độ
-                    root.update_idletasks()  # Cập nhật giao diện
-
-            messagebox.showinfo("Thông báo", "Download thành công!")  # Hiển thị thông báo thành công khi tải file
-        else:
-            messagebox.showerror("Lỗi", "File không tìm thấy trên server.")  # Hiển thị thông báo lỗi nếu file không tìm thấy
-    except Exception as e:
-        messagebox.showerror("Lỗi", f"Lỗi khi tải file: {e}")  # Hiển thị thông báo lỗi nếu có
-    finally:
-        client_socket.close()  # Đóng socket
+def download_files(filenames):
+     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+     client_socket.settimeout(60)
+     try:
+         client_socket.connect(ADDR)
+         client_socket.send(f"DOWNLOAD {len(filenames)}".encode(FORMAT))
+         if client_socket.recv(SIZE).decode(FORMAT) == "READY":
+             for filename in filenames:
+                 client_socket.send(filename.encode(FORMAT))
+                 response = client_socket.recv(SIZE).decode(FORMAT)
+                 if response.startswith("FILE_FOUND"):
+                     filesize = int(response.split()[1])
+                     save_path = filedialog.asksaveasfilename(defaultextension=".bin", initialfile=filename)
+                     with open(save_path, 'wb') as f:
+                         bytes_received = 0
+                         while bytes_received < filesize:
+                             data = client_socket.recv(SIZE)
+                             f.write(data)
+                             bytes_received += len(data)
+                     messagebox.showinfo("Thông báo", f"Tải file {filename} thành công!")
+                 else:
+                     messagebox.showerror("Lỗi", f"File {filename} không tồn tại!")
+     except BrokenPipeError:
+         messagebox.showerror("Lỗi", "Kết nối với server bị mất. Vui lòng thử lại.")
+     except Exception as e:
+         messagebox.showerror("Lỗi", f"Lỗi không xác định: {e}")
+     finally:
+         client_socket.close()
 
 # Hàm upload nhiều file từ thư mục
 # Hàm upload folder với tên thư mục
@@ -82,11 +81,13 @@ def upload_folder(folder_path):
     try:
         client_socket.connect(ADDR)  # Kết nối đến server
         client_socket.send(f"UPLOAD_FOLDER {folder_name}".encode(FORMAT))  # Gửi lệnh upload folder và tên thư mục
-
+        # chưa xử lý trường hợp trong folder có folder
         for filename in os.listdir(folder_path):  # Lặp qua tất cả các file trong thư mục
             full_path = os.path.join(folder_path, filename)  # Tạo đường dẫn đầy đủ cho file
             if os.path.isfile(full_path):  # Kiểm tra xem có phải là file không
-                upload_file(full_path)  # Gọi hàm upload_file để upload file
+                upload_files(full_path)  # Gọi hàm upload_file để upload file
+            if os.path.isdir(full_path):
+                upload_folder(full_path)
         client_socket.send("END".encode(FORMAT))  # Gửi tín hiệu kết thúc
     except Exception as e:
         messagebox.showerror("Lỗi", f"Lỗi khi upload folder: {e}")  # Hiển thị thông báo lỗi nếu có
@@ -100,15 +101,27 @@ def select_folder_to_upload():
 
 # Hàm chọn file để upload
 def select_file_to_upload():
-    filename = filedialog.askopenfilename()  # Mở hộp thoại để chọn file
-    if filename:  # Nếu người dùng chọn file
-        threading.Thread(target=upload_file, args=(filename,)).start()  # Tạo luồng mới để upload file
+    filenames = filedialog.askopenfilenames()  # Mở hộp thoại để chọn file
+   # filesize = os.path.getsize(filename)  # Lấy kích thước của file
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Tạo socket client
+    try:
+        client_socket.connect(ADDR)  # Kết nối đến server
+        print(f"Connected to server {ADDR}")
+        check = upload_files(client_socket, filenames)
+    except Exception as e:
+        messagebox.showerror(f"Lỗi kết nối tới server: {e}")
+    if check == "Completed":
+        client_socket.close()
+    # finally:
+    #     client_socket.close     
+    #     () # đóng socket
+
 
 # Hàm chọn file để download
-def select_file_to_download():
-    filename = filedialog.askopenfilename()  # Mở hộp thoại để chọn file
-    if filename:  # Nếu người dùng chọn file
-        threading.Thread(target=download_file, args=(os.path.basename(filename),)).start()  # Tạo luồng mới để download file
+def select_files_to_download():
+    filenames = filedialog.askopenfilenames()
+    if filenames:
+        threading.Thread(target=download_files, args=(filenames,)).start()
 
 # Hàm xác thực người dùng
 def authenticate():
@@ -153,7 +166,7 @@ upload_folder_button = tk.Button(main_frame, text="Chọn thư mục để uploa
 upload_folder_button.pack(pady=10)  # Đặt nút với khoảng cách
 
 # Nút download file
-download_button = tk.Button(main_frame, text="Chọn file để download", command=select_file_to_download)  # Tạo nút chọn file để download
+download_button = tk.Button(main_frame, text="Chọn file để download", command=select_files_to_download)  # Tạo nút chọn file để download
 download_button.pack(pady=10)  # Đặt nút với khoảng cách
 
 # Thanh tiến độ
