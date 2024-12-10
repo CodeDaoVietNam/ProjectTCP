@@ -26,7 +26,7 @@ class HomePage(tk.Frame):
         image_path = "D:/sky.jpg"
         try:
             img = Image.open(image_path)
-            self.bg_image = ImageTk.PhotoImage(img)
+            self.bg_image = ImageTk.PhotoImage(img) 
             bg_label = tk.Label(self, image=self.bg_image)
             bg_label.place(relwidth=1, relheight=1)
         except Exception as e:
@@ -65,24 +65,36 @@ class HomePage(tk.Frame):
                     messagebox.showerror("Thông báo", "Upload thất bại!")
         except Exception as e:
             messagebox.showerror("Lỗi", f"Lỗi khi upload file: {e}")
-
-    def upload_folder(self, folder_path):
-        folder_name = os.path.basename(folder_path)
+        return "Completed"
+    def upload_folder(self,client_socket, folder_path):
+        folder_name = os.path.basename(folder_path)  # Lấy tên thư mục
+        client_socket.settimeout(60)
+        
+        try:
+            client_socket.send(f"UPLOAD_FOLDER {folder_name}".encode(FORMAT))  # Gửi lệnh upload folder và tên thư mục
+            if client_socket.recv(1024).decode(FORMAT) == "Ready to receive folder" :
+                for filename in os.listdir(folder_path):  # Lặp qua tất cả các file trong thư mục
+                    full_path = os.path.join(folder_path, filename)  # Tạo đường dẫn đầy đủ cho file
+                    if os.path.isfile(full_path):  # Kiểm tra xem có phải là file không
+                        self.upload_files(client_socket, [full_path])  # Gọi hàm upload_file để upload file
+                    if os.path.isdir(full_path):
+                        self.upload_folder(client_socket, full_path)
+                client_socket.send("END".encode(FORMAT))  # Gửi tín hiệu kết thúc
+        except Exception as e:
+            messagebox.showerror("Lỗi", f"Lỗi khi upload folder: {e}")  # Hiển thị thông báo lỗi nếu có
+        return "Completed"
+    # Hàm chọn thư mục để upload
+    def select_folder_to_upload(self):
+        folder_path = filedialog.askdirectory()  # Mở hộp thoại để chọn thư mục
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             client_socket.connect(ADDR)
-            client_socket.send(f"UPLOAD_FOLDER {folder_name}".encode(FORMAT))
-            for filename in os.listdir(folder_path):
-                full_path = os.path.join(folder_path, filename)
-                if os.path.isfile(full_path):
-                    self.upload_files(client_socket, [full_path])
-            client_socket.send("END".encode(FORMAT))
-            messagebox.showinfo("Thông báo", "Upload thư mục thành công!")
+            print(f"Connected to server {ADDR}")
+            check = self.upload_folder(client_socket, folder_path)
         except Exception as e:
-            messagebox.showerror("Lỗi", f"Lỗi khi upload folder: {e}")
-        finally:
+            messagebox.showerror(f"Lỗi kết nối tới server: {e}")
+        if check == "Completed":
             client_socket.close()
-
     def download_files(self, filenames):
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
@@ -109,15 +121,23 @@ class HomePage(tk.Frame):
         finally:
             client_socket.close()
 
-    def select_folder_to_upload(self):
-        folder_path = filedialog.askdirectory()
-        if folder_path:
-            threading.Thread(target=self.upload_folder, args=(folder_path,)).start()
+    # def select_folder_to_upload(self):
+    #     folder_path = filedialog.askdirectory()
+    #     if folder_path:
+    #         threading.Thread(target=self.upload_folder, args=(folder_path,)).start()
 
     def select_file_to_upload(self):
-        filenames = filedialog.askopenfilenames()
-        if filenames:
-            threading.Thread(target=self._upload_file_thread, args=(filenames,)).start()
+        filenames = filedialog.askopenfilenames()  # Mở hộp thoại để chọn file
+    # filesize = os.path.getsize(filename)  # Lấy kích thước của file
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Tạo socket client
+        try:
+            client_socket.connect(ADDR)  # Kết nối đến server
+            print(f"Connected to server {ADDR}")
+            check = self.upload_files(client_socket, filenames)
+        except Exception as e:
+            messagebox.showerror(f"Lỗi kết nối tới server: {e}")
+        if check == "Completed":
+            client_socket.close()
 
     def _upload_file_thread(self, filenames):
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

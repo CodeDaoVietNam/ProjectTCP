@@ -21,12 +21,37 @@ UPLOAD_FOLDER = 'uploads'  # Đường dẫn đến thư mục lưu trữ file u
 # Tạo thư mục nếu chưa tồn tại
 if not os.path.exists(UPLOAD_FOLDER):  # Kiểm tra xem thư mục đã tồn tại chưa
     os.makedirs(UPLOAD_FOLDER)  # Nếu chưa tồn tại, tạo thư mục
+       
+def sendFileToClient(client_socket, *args):
+    files_count = int(args[0])
+    client_socket.send("READY".encode(FORMAT))
+    for _ in range(files_count):
+        filename = client_socket.recv(SIZE).decode(FORMAT)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
 
-def downloadFileFromClient(client_socket,*args):
-    #print(f"{args}")
+        if os.path.exists(filepath):
+            filesize = os.path.getsize(filepath)
+            client_socket.send(f"FILE_FOUND {filesize}".encode(FORMAT))
+            with open(filepath, 'rb') as f:
+                bytes_sent = 0
+                while (chunk := f.read(SIZE)):
+                    client_socket.send(chunk)
+                    bytes_sent += len(chunk)
+
+                    # Hiển thị tiến trình gửi file
+                    progress = (bytes_sent / filesize) * 100
+                    print(f"[{filename}] Sent {progress:.2f}%")
+
+            logging.info(f"[DOWNLOAD] File {filename} sent successfully.")
+        else:
+            client_socket.send("FILE_NOT_FOUND".encode(FORMAT))
+    else:
+        client_socket.send("INVALID_COMMAND".encode(FORMAT))
+        
+def downloadFileFromClient(client_socket,*args, cur_file_path):
     filename = args[0]  # Lấy tên file từ tham số
     filesize = int(args[1])  # Lấy kích thước file từ tham số
-    filepath = os.path.join(UPLOAD_FOLDER, filename)  # Tạo đường dẫn đầy đủ cho file
+    filepath = os.path.join(cur_file_path, filename)  # Tạo đường dẫn đầy đủ cho file
 
     # Đảm bảo tên file duy nhất
     if os.path.exists(filepath):  # Kiểm tra xem file đã tồn tại chưa
@@ -56,36 +81,11 @@ def downloadFileFromClient(client_socket,*args):
         logging.info(f"[UPLOAD] {filename} uploaded successfully.")  # Ghi nhật ký khi upload thành công
         print(f"[UPLOAD] {filename} uploaded successfully.")  # In ra thông báo upload thành công
         client_socket.send("UPLOAD_SUCCESS".encode(FORMAT))  # Gửi phản hồi thành công cho client
-    
-def sendFileToClient(client_socket, *args):
-    files_count = int(args[0])
-    client_socket.send("READY".encode(FORMAT))
-    for _ in range(files_count):
-        filename = client_socket.recv(SIZE).decode(FORMAT)
-        filepath = os.path.join(UPLOAD_FOLDER, filename)
 
-        if os.path.exists(filepath):
-            filesize = os.path.getsize(filepath)
-            client_socket.send(f"FILE_FOUND {filesize}".encode(FORMAT))
-            with open(filepath, 'rb') as f:
-                bytes_sent = 0
-                while (chunk := f.read(SIZE)):
-                    client_socket.send(chunk)
-                    bytes_sent += len(chunk)
-
-                    # Hiển thị tiến trình gửi file
-                    progress = (bytes_sent / filesize) * 100
-                    print(f"[{filename}] Sent {progress:.2f}%")
-
-            logging.info(f"[DOWNLOAD] File {filename} sent successfully.")
-        else:
-            client_socket.send("FILE_NOT_FOUND".encode(FORMAT))
-    else:
-        client_socket.send("INVALID_COMMAND".encode(FORMAT))
-
-def downloadFolderFromClient(client_socket, *args):
+def downloadFolderFromClient(client_socket, *args, cur_folder_path):
     folder_name = args[0]  # Lấy tên thư mục từ tham số
-    folder_path = os.path.join(UPLOAD_FOLDER, folder_name)  # Tạo đường dẫn cho thư mục
+    folder_path = os.path.join(cur_folder_path, folder_name)  # Tạo đường dẫn cho thư mục
+
     # Tạo thư mục nếu chưa tồn tại
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
@@ -95,23 +95,15 @@ def downloadFolderFromClient(client_socket, *args):
         file_name = client_socket.recv(SIZE).decode(FORMAT)
         if file_name == "END":  # Nếu nhận được tín hiệu kết thúc
             break
-        # Nhận kích thước file
-        file_size = int(client_socket.recv(SIZE).decode(FORMAT))
-        full_file_path = os.path.join(folder_path, file_name)
-        #
-        os.makedirs(os.path.dirname(full_file_path), exist_ok=True)  # Tạo thư mục cha nếu chưa tồn tại
-        # Mở file để ghi
-        with open(full_file_path, 'wb') as f:
-            bytes_received = 0
-            while bytes_received < file_size:
-                data = client_socket.recv(4096)
-                if not data :
-                    break
-                f.write(data)
-                bytes_received += len(data)
-                
+        else:
+            command2, *args2 = file_name.split()
+            if command2 == 'UPLOAD_FOLDER':
+                client_socket.sendall("Ready to receive folder".encode(FORMAT))
+                downloadFolderFromClient(client_socket, *args2, cur_folder_path = folder_path)
+            elif command2 == 'UPLOAD':
+                downloadFileFromClient(client_socket, *args2, cur_file_path = folder_path)
         logging.info(f"[UPLOAD_FOLDER] {folder_name} uploaded successfully.")
-        client_socket.send("UPLOAD_FOLDER_SUCCESS".encode(FORMAT))
+       # client_socket.send("UPLOAD_FOLDER_SUCCESS".encode(FORMAT))
 
 # Hàm xử lý kết nối của client
 def handle_client(client_socket, addr):
@@ -122,43 +114,16 @@ def handle_client(client_socket, addr):
     while True:  # Vòng lặp để xử lý các yêu cầu từ client
         try:
             request = client_socket.recv(SIZE).decode(FORMAT)  # Nhận yêu cầu từ client
+            print(f"\n[REQUEST] {request}")
             if not request:  # Nếu không có yêu cầu, thoát vòng lặp
                 break
             
             command, *args = request.split()  # Tách lệnh và các tham số từ yêu cầu
             if command == 'UPLOAD_FOLDER':  # Nếu lệnh là UPLOAD_FOLDER
-                folder_name = args[0]  # Lấy tên thư mục từ tham số
-                folder_path = os.path.join(UPLOAD_FOLDER, folder_name)  # Tạo đường dẫn cho thư mục
-
-                # Tạo thư mục nếu chưa tồn tại
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-
-                # Nhận file từ client
-                while True:
-                    file_name = client_socket.recv(SIZE).decode(FORMAT)
-                    if file_name == "END":  # Nếu nhận được tín hiệu kết thúc
-                        break
-                    # Nhận kích thước file
-                    file_size = int(client_socket.recv(SIZE).decode(FORMAT))
-                    full_file_path = os.path.join(folder_path, file_name)
-                    #
-                    os.makedirs(os.path.dirname(full_file_path), exist_ok=True)  # Tạo thư mục cha nếu chưa tồn tại
-                    # Mở file để ghi
-                    with open(full_file_path, 'wb') as f:
-                        bytes_received = 0
-                        while bytes_received < file_size:
-                            data = client_socket.recv(4096)
-                            if not data :
-                                break
-                            f.write(data)
-                            bytes_received += len(data)
-                
-                    logging.info(f"[UPLOAD_FOLDER] {folder_name} uploaded successfully.")
-                    client_socket.send("UPLOAD_FOLDER_SUCCESS".encode(FORMAT))
-            
-            if command == 'UPLOAD':  # Nếu lệnh là UPLOAD
-                downloadFileFromClient(client_socket, *args)
+                client_socket.sendall("Ready to receive folder".encode(FORMAT))
+                downloadFolderFromClient(client_socket, *args, cur_folder_path = UPLOAD_FOLDER)
+            elif command == 'UPLOAD':  # Nếu lệnh là UPLOAD
+                downloadFileFromClient(client_socket, *args, cur_file_path = UPLOAD_FOLDER)
                
             elif command == 'DOWNLOAD':  # Nếu lệnh là DOWNLOAD
                 sendFileToClient(client_socket, *args)
@@ -194,7 +159,6 @@ if __name__ == "__main__":
     
 
 #nhận file từ client
-    # filename = args[0]  # Lấy tên file từ tham số
     # filesize = int(args[1])  # Lấy kích thước file từ tham số
     # filepath = os.path.join(UPLOAD_FOLDER, filename)  # Tạo đường dẫn đầy đủ cho file
 
