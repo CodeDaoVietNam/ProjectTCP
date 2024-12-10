@@ -131,3 +131,78 @@
 2024-12-09 02:09:37,063 - [LISTENING] Server is listening on 127.0.0.1:65432
 2024-12-09 23:02:24,886 - [LISTENING] Server is listening on 127.0.0.1:65432
 2024-12-10 22:12:39,656 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-10 23:29:51,268 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-10 23:30:21,882 - [NEW CONNECTION] ('127.0.0.1', 49491) connected.
+2024-12-10 23:30:21,901 - [UPLOAD] data.txt uploaded successfully.
+2024-12-10 23:30:21,901 - [UPLOAD_FOLDER] data uploaded successfully.
+2024-12-10 23:30:22,760 - [UPLOAD] data2.jpg uploaded successfully.
+2024-12-10 23:30:22,761 - [UPLOAD_FOLDER] data uploaded successfully.
+2024-12-10 23:30:23,259 - [DISCONNECTED] ('127.0.0.1', 49491) disconnected.
+2024-12-10 23:31:08,881 - [NEW CONNECTION] ('127.0.0.1', 49493) connected.
+2024-12-10 23:31:08,909 - [UPLOAD] z4743320109984-25f5805b895da4b44df5763742e859f7.jpg uploaded successfully.
+2024-12-10 23:31:09,725 - [DISCONNECTED] ('127.0.0.1', 49493) disconnected.
+2024-12-10 23:32:04,694 - [NEW CONNECTION] ('127.0.0.1', 49522) connected.
+2024-12-10 23:32:04,715 - [DOWNLOAD] File C:/Users/tienn/Downloads/23120368.cpp sent successfully.
+2024-12-10 23:32:10,359 - [DISCONNECTED] ('127.0.0.1', 49522) disconnected.
+2024-12-10 23:32:40,934 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-10 23:33:29,883 - [NEW CONNECTION] ('127.0.0.1', 49537) connected.
+2024-12-10 23:33:29,910 - [DOWNLOAD] File C:/Users/tienn/Downloads/Project_PacketTracer.pdf sent successfully.
+2024-12-10 23:33:34,829 - [DISCONNECTED] ('127.0.0.1', 49537) disconnected.
+2024-12-10 23:34:23,226 - [NEW CONNECTION] ('127.0.0.1', 49540) connected.
+2024-12-10 23:34:23,251 - [DOWNLOAD] File C:/Users/tienn/Downloads/0b221407-de2d-4d93-b130-f8caa8b76aed.jpg sent successfully.
+2024-12-10 23:34:28,200 - [DISCONNECTED] ('127.0.0.1', 49540) disconnected.
+2024-12-10 23:44:33,145 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-10 23:44:56,055 - [NEW CONNECTION] ('127.0.0.1', 49622) connected.
+2024-12-10 23:44:56,075 - [DOWNLOAD] File C:/Users/tienn/OneDrive/Máy tính/ProjectTCP/uploads/example_1.pdf sent successfully.
+2024-12-10 23:45:14,461 - [DISCONNECTED] ('127.0.0.1', 49622) disconnected.
+2024-12-10 23:45:48,413 - [NEW CONNECTION] ('127.0.0.1', 49625) connected.
+2024-12-10 23:45:48,430 - [UPLOAD] Project_PacketTracer.pdf uploaded successfully.
+2024-12-10 23:45:50,169 - [DISCONNECTED] ('127.0.0.1', 49625) disconnected.
+2024-12-10 23:46:40,978 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-10 23:47:11,023 - [NEW CONNECTION] ('127.0.0.1', 49637) connected.
+2024-12-10 23:47:11,034 - [DOWNLOAD] File C:/Users/tienn/OneDrive/Máy tính/ProjectTCP/uploads/PROJECT_SOCKET_2021_02_1.docx sent successfully.
+2024-12-10 23:47:21,428 - [DISCONNECTED] ('127.0.0.1', 49637) disconnected.
+2024-12-10 23:47:32,476 - [NEW CONNECTION] ('127.0.0.1', 49638) connected.
+2024-12-10 23:47:32,479 - [DOWNLOAD] File C:/Users/tienn/OneDrive/Máy tính/ProjectTCP/uploads/PROJECT_SOCKET_2021_02.docx sent successfully.
+2024-12-10 23:47:37,371 - [DISCONNECTED] ('127.0.0.1', 49638) disconnected.
+2024-12-10 23:51:22,298 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-10 23:51:38,617 - [NEW CONNECTION] ('127.0.0.1', 49677) connected.
+2024-12-10 23:51:38,620 - [DOWNLOAD] File C:/Users/tienn/OneDrive/Máy tính/ProjectTCP/uploads/_LICH THI HK1_2425_CQUY_LINH TRUNG VA NVC_Khóa 2023.xls sent successfully.
+2024-12-10 23:51:43,509 - [ERROR] Connection reset by client: ('127.0.0.1', 49677) - [WinError 10054] An existing connection was forcibly closed by the remote host
+2024-12-10 23:51:43,510 - [DISCONNECTED] ('127.0.0.1', 49677) disconnected.
+2024-12-10 23:52:04,725 - [NEW CONNECTION] ('127.0.0.1', 49693) connected.
+2024-12-10 23:52:04,740 - [UPLOAD] Project_PacketTracer_1.pdf uploaded successfully.
+2024-12-10 23:52:06,333 - [DISCONNECTED] ('127.0.0.1', 49693) disconnected.
+2024-12-10 23:58:31,872 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-10 23:58:44,706 - [NEW CONNECTION] ('127.0.0.1', 49821) connected.
+2024-12-10 23:58:44,706 - [ERROR] invalid literal for int() with base 10: 'tay'
+2024-12-10 23:58:44,707 - [DISCONNECTED] ('127.0.0.1', 49821) disconnected.
+2024-12-11 00:00:16,977 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-11 00:00:30,367 - [NEW CONNECTION] ('127.0.0.1', 49843) connected.
+2024-12-11 00:00:30,368 - [ERROR] invalid literal for int() with base 10: 'tay'
+2024-12-11 00:00:30,368 - [DISCONNECTED] ('127.0.0.1', 49843) disconnected.
+2024-12-11 00:01:03,273 - [NEW CONNECTION] ('127.0.0.1', 49846) connected.
+2024-12-11 00:01:03,293 - [UPLOAD] Example2.pdf uploaded successfully.
+2024-12-11 00:01:04,332 - [DISCONNECTED] ('127.0.0.1', 49846) disconnected.
+2024-12-11 00:01:52,556 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-11 00:02:05,757 - [NEW CONNECTION] ('127.0.0.1', 49856) connected.
+2024-12-11 00:02:07,065 - [UPLOAD] Example2_1.pdf uploaded successfully.
+2024-12-11 00:02:10,363 - [DISCONNECTED] ('127.0.0.1', 49856) disconnected.
+2024-12-11 00:04:45,113 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-11 00:05:31,757 - [NEW CONNECTION] ('127.0.0.1', 49876) connected.
+2024-12-11 00:05:31,758 - [ERROR] invalid literal for int() with base 10: 'Online'
+2024-12-11 00:05:31,758 - [DISCONNECTED] ('127.0.0.1', 49876) disconnected.
+2024-12-11 00:05:47,584 - [NEW CONNECTION] ('127.0.0.1', 49877) connected.
+2024-12-11 00:06:18,697 - [UPLOAD] testvuithoi.mp4 uploaded successfully.
+2024-12-11 00:06:30,140 - [DISCONNECTED] ('127.0.0.1', 49877) disconnected.
+2024-12-11 00:09:03,165 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-11 00:09:40,524 - [NEW CONNECTION] ('127.0.0.1', 49899) connected.
+2024-12-11 00:10:14,047 - [DOWNLOAD] File C:/Users/tienn/OneDrive/Máy tính/ProjectTCP/uploads/testvuithoi.mp4 sent successfully.
+2024-12-11 00:10:17,478 - [DISCONNECTED] ('127.0.0.1', 49899) disconnected.
+2024-12-11 00:12:03,074 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-11 00:12:53,024 - [NEW CONNECTION] ('127.0.0.1', 49921) connected.
+2024-12-11 00:12:53,036 - [ERROR] invalid literal for int() with base 10: 'Cu\u1ed9c'
+2024-12-11 00:12:53,037 - [DISCONNECTED] ('127.0.0.1', 49921) disconnected.
+2024-12-11 00:13:27,318 - [NEW CONNECTION] ('127.0.0.1', 49927) connected.
+2024-12-11 00:15:26,387 - [UPLOAD] Zoom1.mp4 uploaded successfully.
+2024-12-11 00:15:29,120 - [DISCONNECTED] ('127.0.0.1', 49927) disconnected.

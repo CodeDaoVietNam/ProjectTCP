@@ -8,12 +8,11 @@ import threading  # Thư viện để xử lý đa luồng
 
 
 # Định nghĩa các thông số cấu hình
-SERVER_IP = '127.0.0.1'  # Địa chỉ IP của server (có thể thay đổi nếu server chạy trên địa chỉ khác)
+SERVER_IP = '192.168.106.1'  # Địa chỉ IP của server (có thể thay đổi nếu server chạy trên địa chỉ khác)
 SERVER_PORT = 65432     # Cổng mà server đang lắng nghe (có thể thay đổi nếu server chạy trên cổng khác)
 ADDR = (SERVER_IP, SERVER_PORT)  # Tuple chứa địa chỉ IP và cổng
-SIZE = 4096       # Kích thước buffer (1MB) cho việc truyền tải dữ liệu
+SIZE = 1024*1024      # Kích thước buffer (4KB) cho việc truyền tải dữ liệu
 FORMAT = 'utf-8'         # Định dạng mã hóa cho các chuỗi
-
 
 # Frame HomePage là frame sau khi client log in thành công
 class HomePage(tk.Frame):
@@ -57,6 +56,7 @@ class HomePage(tk.Frame):
                             bytes_sent += len(data)  # Cập nhật số byte đã gửi
                              # Cập nhật tiến độ
                             progress = (bytes_sent / filesize) * 100 # Tính toán phần trăm đã gửi
+                            print(f"[{filename}] Sent {progress:.2f}%")
                             self.progress_var.set(progress) # Cập nhật biến tiến độ
                             self.appController.update_idletasks() # Cập nhật giao diện    
                 response = client_socket.recv(1024).decode(FORMAT) # Nhận phản hồi từ server
@@ -64,12 +64,16 @@ class HomePage(tk.Frame):
                     messagebox.showinfo("Thông báo", "Upload thành công!")
                 else:
                     messagebox.showerror("Thông báo", "Upload thất bại!")
+            #Dat lai thanh tien do ve 0
+            # Đặt thanh tiến độ về 0 sau khi hoàn tất
+            self.progress_var.set(0)
+            self.appController.update_idletasks()
         except Exception as e:
             messagebox.showerror("Lỗi", f"Lỗi khi upload file: {e}")
         return "Completed"
     def upload_folder(self,client_socket, folder_path):
         folder_name = os.path.basename(folder_path)  # Lấy tên thư mục
-        client_socket.settimeout(60)
+        client_socket.settimeout(120)
         
         try:
             client_socket.send(f"UPLOAD_FOLDER {folder_name}".encode(FORMAT))  # Gửi lệnh upload folder và tên thư mục
@@ -108,15 +112,28 @@ class HomePage(tk.Frame):
                     if response.startswith("FILE_FOUND"):
                         filesize = int(response.split()[1])
                         save_path = filedialog.asksaveasfilename(defaultextension=".bin", initialfile=filename)
+                        
+                        if not save_path:
+                            continue #Bo qua file neu nguoi dung khong cho noi luu tru
+                        #thanh tien do cho file hien tai
+                        self.progress_var.set(0)
                         with open(save_path, 'wb') as f:
                             bytes_received = 0
                             while bytes_received < filesize:
                                 data = client_socket.recv(SIZE)
                                 f.write(data)
                                 bytes_received += len(data)
+                                # Cập nhật thanh tiến độ
+                                progress = (bytes_received / filesize) * 100
+                                self.progress_var.set(progress)
+                                self.appController.update_idletasks()
                         messagebox.showinfo("Thông báo", f"Tải file {filename} thành công!")
                     else:
                         messagebox.showerror("Lỗi", f"File {filename} không tồn tại!")
+                        
+                #Đặt thanh tiến độ về 0 sau khi hoàn tất
+                self.progress_var.set(0)
+                self.appController.update_idletasks()
         except Exception as e:
             messagebox.showerror("Lỗi", f"Lỗi không xác định: {e}")
         finally:

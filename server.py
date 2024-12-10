@@ -6,10 +6,10 @@ import time  # Thư viện để làm việc với thời gian
 import logging  # Thư viện để ghi nhật ký
 
 # Định nghĩa các thông số cấu hình
-HOST = '127.0.0.1'  # Lấy địa chỉ IP của máy chủ
+HOST = '192.168.106.1'  # Lấy địa chỉ IP của máy chủ
 PORT = 65432 # Cổng mà server sẽ lắng nghe
 ADDR = (HOST, PORT)  # Tuple chứa địa chỉ IP và cổng
-SIZE = 4096  # Kích thước buffer (1KB) cho việc truyền tải dữ liệu
+SIZE = 1024*1024  # Kích thước buffer (1MB) cho việc truyền tải dữ liệu
 FORMAT = 'utf-8'  # Định dạng mã hóa cho các chuỗi
 
 # Thiết lập ghi nhật ký
@@ -107,14 +107,13 @@ def downloadFolderFromClient(client_socket, *args, cur_folder_path):
 
 # Hàm xử lý kết nối của client
 def handle_client(client_socket, addr):
-    client_socket.settimeout(60)
+    client_socket.settimeout(120)
     logging.info(f"[NEW CONNECTION] {addr} connected.")  # Ghi nhật ký khi có kết nối mới
     print(f"[NEW CONNECTION] {addr} connected.")  # In ra thông báo kết nối mới
     
     while True:  # Vòng lặp để xử lý các yêu cầu từ client
         try:
             request = client_socket.recv(SIZE).decode(FORMAT)  # Nhận yêu cầu từ client
-            print(f"\n[REQUEST] {request}")
             if not request:  # Nếu không có yêu cầu, thoát vòng lặp
                 break
             
