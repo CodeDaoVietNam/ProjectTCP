@@ -128,3 +128,5 @@
 2024-12-05 13:11:31,841 - [DISCONNECTED] ('127.0.0.1', 58303) disconnected.
 2024-12-05 13:11:31,841 - [ERROR] [WinError 10053] An established connection was aborted by the software in your host machine
 2024-12-05 13:11:31,841 - [DISCONNECTED] ('127.0.0.1', 58299) disconnected.
+2024-12-09 02:09:37,063 - [LISTENING] Server is listening on 127.0.0.1:65432
+2024-12-09 23:02:24,886 - [LISTENING] Server is listening on 127.0.0.1:65432
