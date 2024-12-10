@@ -15,7 +15,7 @@ SIZE = 4096       # Kích thước buffer (1MB) cho việc truyền tải dữ l
 FORMAT = 'utf-8'         # Định dạng mã hóa cho các chuỗi
 
 
-
+# Frame HomePage là frame sau khi client log in thành công
 class HomePage(tk.Frame):
     def __init__(self, parent, appController):
         tk.Frame.__init__(self, parent)
@@ -49,16 +49,17 @@ class HomePage(tk.Frame):
                 filesize = os.path.getsize(filename) # lấy kích thước của từng file 
                 client_socket.send(f"UPLOAD {os.path.basename(filename)} {filesize}".encode(FORMAT)) # Gửi lệnh upload và thông tin file
                 if client_socket.recv(1024).decode(FORMAT) == "Ready to receive":
-                    with open(filename, 'rb') as f:
-                        bytes_sent = 0
-                        while bytes_sent < filesize:
-                            data = f.read(SIZE)
-                            client_socket.sendall(data)
-                            bytes_sent += len(data)
-                            progress = (bytes_sent / filesize) * 100
-                            self.progress_var.set(progress)
-                            self.appController.update_idletasks()
-                response = client_socket.recv(1024).decode(FORMAT)
+                    with open(filename, 'rb') as f: # Mở file để đọc nhị phân
+                        bytes_sent = 0 # Biến để theo dõi số byte đã gửi
+                        while bytes_sent < filesize: # Trong khi chưa gửi hết file
+                            data = f.read(SIZE)  # Đọc 4096 byte từ file
+                            client_socket.sendall(data) # Gửi dữ liệu đến server
+                            bytes_sent += len(data)  # Cập nhật số byte đã gửi
+                             # Cập nhật tiến độ
+                            progress = (bytes_sent / filesize) * 100 # Tính toán phần trăm đã gửi
+                            self.progress_var.set(progress) # Cập nhật biến tiến độ
+                            self.appController.update_idletasks() # Cập nhật giao diện    
+                response = client_socket.recv(1024).decode(FORMAT) # Nhận phản hồi từ server
                 if response == "UPLOAD_SUCCESS":
                     messagebox.showinfo("Thông báo", "Upload thành công!")
                 else:
@@ -154,61 +155,63 @@ class HomePage(tk.Frame):
         if filenames:
             threading.Thread(target=self.download_files, args=(filenames,)).start()
 
-
+# Frame StartPage là Frame client dùng để log in
 class StartPage(tk.Frame):
     def __init__(self, parent, appController):
         tk.Frame.__init__(self, parent)
         self.appController = appController
-
+        # Path của ảnh để làm hình nền cho Frame StartPage và HomePage
         image_path = "D:/sky.jpg"
         try:
-            img = Image.open(image_path)
-            self.bg_image = ImageTk.PhotoImage(img)
-            bg_label = tk.Label(self, image=self.bg_image)
+            img = Image.open(image_path) # Mở file ảnh
+            self.bg_image = ImageTk.PhotoImage(img) # Chuyển ảnh sang dạn Tkinter
+            bg_label = tk.Label(self, image=self.bg_image) # Hiển thị ảnh trong label
             bg_label.place(relwidth=1, relheight=1)
         except Exception as e:
-            print(f"Error loading background image: {e}")
+            print(f"Error loading background image: {e}") # Thông báo lỗi nếu loading lỗi ảnh
 
-        tk.Label(self, text="LOGIN", font=("Times New Roman", 18, "bold"), bg="sky blue", fg="black").place(x=200, y=50)
-        tk.Label(self, text="OTP", font=("Times New Roman", 12, "bold"), bg="sky blue").place(x=100, y=140)
+        tk.Label(self, text="LOGIN", font=("Times New Roman", 18, "bold"), bg="sky blue", fg="black").place(x=210, y=50) # Thêm LOGIN label
+        tk.Label(self, text="PIN", font=("Times New Roman", 12, "bold"), bg="sky blue").place(x=130, y=140) #Thêm PIN label
 
-        self.entry_pswd = tk.Entry(self, width=30, show='*', font=("Times New Roman", 12, "italic"), bg='light yellow')
-        self.entry_pswd.place(x=200, y=140)
-        tk.Button(self, text="LOG IN", font=("Times New Roman", 10), bg="white", fg="black", command=self.log_in).place(x=220, y=190)
-        self.label_notice = tk.Label(self, text="", font=("Times New Roman", 10), bg="sky blue", fg="red")
+        self.entry_pswd = tk.Entry(self, width=30, show='*', font=("Times New Roman", 12, "italic"), bg='light yellow') # Entry pin 
+        self.entry_pswd.place(x=170, y=140)
+        tk.Button(self, text="LOG IN", font=("Times New Roman", 10), bg="white", fg="black", command=self.log_in).place(x=220, y=190) # Thêm LOG IN button
+        self.label_notice = tk.Label(self, text="", font=("Times New Roman", 10), bg="sky blue", fg="red") # Thêm dòng báo nếu client Login không thành công
         self.label_notice.place(x=200, y=230)
 
-    def log_in(self):
+    def log_in(self): # Check pin
         pswd = self.entry_pswd.get()
         if pswd == "1234":
-            self.appController.showPage(HomePage)
+            self.appController.showPage(HomePage) # Client Login thành công, chuyển sang Frame HomePage
         else:
-            self.label_notice["text"] = "Wrong password!"
+            self.label_notice["text"] = "Wrong password!" # Client Login thất bại, in ra thông báo ở label_notice
 
 
 class App(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-        self.title("File Transfer Client")
-        self.geometry("500x300")
-        self.resizable(width=False, height=False)
+        self.title("File Transfer Client") # Title app
+        self.geometry("500x300") # Cài đặt kích thước cho app
+        self.resizable(width=False, height=False)  # Cài đặt cố định kích thước, client không thay đổi được
 
-        container = tk.Frame(self)
-        container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        container = tk.Frame(self) # Tạo Frame chứa tất cả các Frame còn lại
+        container.pack(side="top", fill="both", expand=True) # Đặt vị trí khung container
+        container.grid_rowconfigure(0, weight=1) # Đặt trọng số cho Hàng 0
+        container.grid_columnconfigure(0, weight=1) # Đặt trọng số cho Cột 0
 
-        self.frames = {}
-        for Page in (StartPage, HomePage):
+
+
+        self.frames = {} # Tạo từ điển để lưu các Frame
+        for Page in (StartPage, HomePage): # Lặp qua 2 Frame 
             frame = Page(container, self)
             self.frames[Page] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.showPage(StartPage)
+        self.showPage(StartPage) # Hiển thị StartPage cho Client
 
     def showPage(self, FrameClass):
-        frame = self.frames[FrameClass]
-        frame.tkraise()
+        frame = self.frames[FrameClass] # Lấy đối tượng từ từ điển self.frames
+        frame.tkraise() # Đưa Frame được chọn lên phía trước, hiển thị cho người dùng
 
 
 if __name__ == "__main__":
