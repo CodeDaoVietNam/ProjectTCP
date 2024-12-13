@@ -8,7 +8,7 @@ import threading  # Thư viện để xử lý đa luồng
 
 
 # Định nghĩa các thông số cấu hình
-SERVER_IP = '192.168.106.1'  # Địa chỉ IP của server (có thể thay đổi nếu server chạy trên địa chỉ khác)
+SERVER_IP = '127.0.0.1'  # Địa chỉ IP của server (có thể thay đổi nếu server chạy trên địa chỉ khác)
 SERVER_PORT = 65432     # Cổng mà server đang lắng nghe (có thể thay đổi nếu server chạy trên cổng khác)
 ADDR = (SERVER_IP, SERVER_PORT)  # Tuple chứa địa chỉ IP và cổng
 SIZE = 1024*1024      # Kích thước buffer (4KB) cho việc truyền tải dữ liệu
@@ -138,11 +138,6 @@ class HomePage(tk.Frame):
             messagebox.showerror("Lỗi", f"Lỗi không xác định: {e}")
         finally:
             client_socket.close()
-
-    # def select_folder_to_upload(self):
-    #     folder_path = filedialog.askdirectory()
-    #     if folder_path:
-    #         threading.Thread(target=self.upload_folder, args=(folder_path,)).start()
 
     def select_file_to_upload(self):
         filenames = filedialog.askopenfilenames()  # Mở hộp thoại để chọn file
